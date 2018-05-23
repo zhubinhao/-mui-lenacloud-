@@ -1,0 +1,89 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.min.css" rel="stylesheet" />
+	</head>
+
+	<body id="about">
+		<header class="mui-bar mui-bar-nav">
+		    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+		    <h1 class="mui-title">关于备忘录</h1>
+		</header>
+		<div class="mui-content">
+			<ul class="mui-table-view" style="margin: 0;">
+				   <li class="mui-table-view-cell" v-on:tap='to(4,"备忘录1.1.4更新")'>
+			            <a class="mui-navigate-right"> 
+                                                                                               备忘录1.1.4更新
+                           <p style="margin-bottom: -5px;margin-top: 5px;">2017 年 11 月 16 日</p>
+			                 
+			            </a>
+			       </li>
+				   <li class="mui-table-view-cell" v-on:tap='to(3,"备忘录1.1.3更新")'>
+			            <a class="mui-navigate-right"> 
+                                                                                               备忘录1.1.3更新
+                           <p style="margin-bottom: -5px;margin-top: 5px;">2017 年 09 月 16 日</p>
+			                 
+			            </a>
+			        </li>
+			        <li class="mui-table-view-cell" v-on:tap='to(2,"备忘录1.1.2更新")'>
+			            <a class="mui-navigate-right"> 
+                                                                                               备忘录1.1.2更新
+                           <p style="margin-bottom: -5px;margin-top: 5px;">2017 年 09 月 01 日</p>
+			                 
+			            </a>
+			        </li>
+			        <li class="mui-table-view-cell" v-on:tap='to(1,"备忘录1.1.1更新")'>
+			            <a class="mui-navigate-right"> 
+                                                                                               备忘录1.1.1更新
+                           <p style="margin-bottom: -5px;margin-top: 5px;">2017 年 08 月 16 日</p>
+			                 
+			            </a>
+			        </li>
+			        <li class="mui-table-view-cell" v-on:tap='to(0,"备忘录1.0.1更新")'>
+			            <a class="mui-navigate-right">
+                                                                                              备忘录1.0.1更新
+                            <p style="margin-bottom: -5px;margin-top: 5px;">2017 年 08 月 07 日</p>
+			            </a>
+			        </li>
+			    </ul>
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/vue.js"></script>
+		<script type="text/javascript">
+			var about = new Vue({
+				el:"#about",
+				data:{},
+				ready:function(){
+			          mui.init({
+						  preloadPages:[{
+						    id:'aboutlist',
+						    url:'aboutlist.html',
+						    styles:{							
+							   zindex: 5
+						    },
+						  }
+						  ]
+						});				
+				},
+				methods:{
+					to:function(i,t){						 
+						var data = plus.webview.getWebviewById('aboutlist');
+						mui.fire(data,'aboutId',{
+					       id:i,
+					       title:t
+					  });
+					   mui.openWindow({
+						    id:'aboutlist'
+						  })
+					}
+				}
+			})
+
+		</script>
+	</body>
+
+</html>

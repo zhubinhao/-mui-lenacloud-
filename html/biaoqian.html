@@ -1,0 +1,113 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="../css/style.css"/> 
+		<link rel="stylesheet" type="text/css" href="../css/iconfont.css"/>
+		<style type="text/css">
+			input{
+				border: none !important;
+			}
+		</style>
+	</head>      
+	<body id="biaoqian">
+		<header class="mui-bar mui-bar-nav">
+		    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"><span style="font-size: 16px;">编辑标签</span></a>	
+		    <a class="mui-icon mui-icon-checkmarkempty mui-pull-right" style="font-size: 35px;" v-on:tap='submit()'></a>		    
+		</header>		
+		<div class="mui-content" padding>			
+          <ul class="mui-table-view" style="padding-right: 20px;">          	    	       
+     	         <li class="mui-table-view-cell">
+     	           <i class="icon iconfont icon-biaoqian icon1"></i>  
+     	           <input  id="a" value="{{itm[0]}}" />     	               	                    	                	            
+     	        </li>
+     	        <li class="mui-table-view-cell">
+     	           <i class="icon iconfont icon-biaoqian icon2"></i>  
+     	           <input  id="b" value="{{itm[1]}}" />     	               	                    	                	            
+     	        </li>
+     	        <li class="mui-table-view-cell" >
+     	           <i class="icon iconfont icon-biaoqian icon3"></i> 
+     	           <input  id="c" value="{{itm[2]}}" />     	                	                                 	               	            
+     	        </li>
+     	         <li class="mui-table-view-cell" >
+     	            <i class="icon iconfont icon-biaoqian icon4"></i> 
+     	           <input  id="d" value="{{itm[3]}}" />     	              	                          	                 	            
+     	        </li>
+     	        <li class="mui-table-view-cell" >
+     	            <i class="icon iconfont icon-biaoqian icon5"></i>  
+     	           <input  id="e" value="{{itm[4]}}" />    	                	                             	               	            
+     	        </li>
+     	    </ul>			
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/vue.js"></script>
+		<script type="text/javascript">
+			var biaoqian = new Vue({
+				el:"#biaoqian",
+				data:{
+					itm:[]
+				},
+				ready:function(){
+					var isthis = this;
+			       mui.init()
+					mui.plusReady(function(){
+						isthis.itm=plus.storage.getItem('biaoqi').split('-')
+						console.log(isthis.itm)
+					})
+				},
+				methods:{
+					submit:function(){
+					 var a=mui("#a")[0].value;
+					 var b=mui("#b")[0].value;
+					 var c=mui("#c")[0].value;
+					 var d=mui("#d")[0].value;
+					 var e=mui("#e")[0].value;
+					 if(!this.isEmpty(a)){
+					 	mui.toast('标签不能为空')
+					 	return;					 	
+					 }
+					 if(!this.isEmpty(b)){
+					 	mui.toast('标签不能为空');
+					 	return;
+					 }if(!this.isEmpty(c)){
+					 	mui.toast('标签不能为空')
+					 	return;
+					 	
+					 }if(!this.isEmpty(d)){
+					 	mui.toast('标签不能为空')
+					 	return;					 	
+					 }if(!this.isEmpty(e)){
+					 	mui.toast('标签不能为空')
+					 	return;					 	
+					 }
+					 var arra=[a,b,c,d,e].join("-");
+					 plus.storage.setItem('biaoqi', arra);
+					 var jj = plus.webview.getWebviewById('left')
+					 jj.evalJS("left._biaoqi()")
+					 var ii = plus.webview.getWebviewById("main")
+					 
+					 ii.evalJS("thismain.titl()")
+					 
+					 
+					 console.log(ii)
+					 setTimeout(function(){
+					    mui.back()					 	
+					 },500)								 
+					},
+					isEmpty:function(value){
+							var validateReg = /^\S+$/;
+							return validateReg.test(value);
+						}
+				}
+			})
+
+			
+			
+		</script>
+	</body>
+
+</html>

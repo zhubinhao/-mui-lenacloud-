@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html class="ui-page-login">
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="css/style.css" rel="stylesheet" />
+		<style>
+		
+			body {
+				margin: 0px;
+			}
+			.mui-control-content {
+				/*background-color: white;*/
+				border-bottom: none;
+				min-height: 315px;
+			}
+			input{
+				background: none !important;
+				 border: none !important;
+				 border-radius: 0 !important;
+				 width: 70%;
+				
+				 border-bottom: 1px solid white !important;
+				color: white;
+			}
+			.mui-scroll-wrapper input:first-child{
+				margin-top: 20px;
+			}
+			::-webkit-input-placeholder { /* WebKit browsers */
+			color:white;
+			}
+			:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+			color:white;
+			}
+			::-moz-placeholder { /* Mozilla Firefox 19+ */
+			color:white;
+			}
+			:-ms-input-placeholder { /* Internet Explorer 10+ */
+			color:white;
+			}
+			.success{
+				position: absolute;  top: 200px; z-index: 9999;
+			}
+			.secondary{
+				position: absolute;  top: 200px; z-index:-2 ;
+			}
+		</style>
+
+	</head>
+
+	<body id="login">	
+		
+		<video id="myaudio" autoplay="autoplay" preload="auto" width="100%" webkit-playsinline="webkit-playsinline">
+			<source src="launch_movie.webm" type="video/webm" />
+			<source src="launch_movie.mp4" type="video/mp4" />
+		</video>
+		<div style="position: absolute;z-index: 999;bottom: 30px; color: white;right: 30px; font-size: 18px; " v-on:tap="to()" v-if="!istrue">
+             <div>备忘录<i class="mui-icon mui-icon-arrowright"></i></div>   
+        </div>
+		<div  v-bind:class="istrue  ? 'success' : 'secondary'">  
+		 
+		
+			<div id="slider" class="mui-slider" style="border: none;">
+				<div id="sliderSegmentedControl" class="mui-slider-indicator mui-segmented-control mui-segmented-control-inverted">
+					<a class="mui-control-item" href="#item1mobile" style="color: white;" id='denglu'>
+				登录
+			</a>
+					<a class="mui-control-item" href="#item2mobile" style="color: white;" id="zhuce">
+				注册
+			</a>
+					
+				</div>
+				<div id="sliderProgressBar" class="mui-slider-progress-bar mui-col-xs-6"></div>
+				<div class="mui-slider-group">
+					<div id="item1mobile" class="mui-slider-item mui-control-content mui-active" style="border: none;">
+						<div id="scroll1" class="mui-scroll-wrapper" style="width: 80%;margin-left: 10%;">										 
+							<input id='account' type="text" class="mui-input-clear mui-input"  placeholder="请输入账号">											
+							<input id='password' type="password" class="mui-input-clear mui-input" placeholder="请输入密码">																											
+							<div class="mui-content-padded">
+								<button id='login' type="button" data-loading-icon="" class="mui-btn mui-btn-block mui-btn-primary"  style="opacity: 0.6;margin-top: 30px;" v-on:tap='logins(this)'>登录</button>										
+							</div>     					
+						</div>
+					</div>
+					<div id="item2mobile" class="mui-slider-item mui-control-content" style="border: none;"> 
+						<div id="scroll2" class="mui-scroll-wrapper"  style="width: 80%;margin-left: 10%;">															
+									<input id='username' type="text" class="mui-input-clear mui-input" placeholder="请输入手机号">									
+									<input id='password1' type="password" class="mui-input-clear mui-input" placeholder="请输入密码">																	
+									<input id='password_confirm' type="password" class="mui-input-clear mui-input" placeholder="请再次认密码">																	
+									<input id='nickname' type="email" class="mui-input-clear mui-input" placeholder="请输入邮箱">								
+							<div class="mui-content-padded">
+								<button id='reg' class="mui-btn mui-btn-block mui-btn-primary"  style="opacity: 0.6;" v-on:tap="reg()">注册</button>
+							</div>
+						</div>
+					</div>				
+				</div>
+			</div>								
+		</div>
+		<script src="js/mui.min.js"></script>
+		<script src="js/av-min.js"></script>
+		<script src="js/AV.js"></script>
+		<script src="js/api.js"></script>
+		<script src="js/app.js"></script>
+		<script src="js/vue.js"></script>
+		<script>		
+			var login = new Vue({
+				el:'#login',
+				data:{	
+					istrue:false
+				},
+				ready:function(){
+					mui.init();
+					var isthis=this;
+					mui.plusReady(function(){						
+						plus.navigator.closeSplashscreen(); //关闭splash页面；
+					    plus.navigator.setFullscreen(true); 
+						plus.navigator.setStatusBarBackground('red');//背景颜色 ，颜色码			    	
+				        plus.navigator.setStatusBarStyle('light');  // "dark"：文字为黑色 "light"：文字为白色 	  					    
+					var settings=localStorage.getItem("login");
+						
+				//禁用滑动
+				document.addEventListener('touchmove', function() {
+					event.preventDefault();
+				}, false);
+				//设置监听
+				var webview = plus.webview.currentWebview();
+				mui.fire(webview, 'eventName', {});
+				//监听并播放
+				window.addEventListener('eventName', function(event) {
+					console.log(1)
+					document.getElementById('myaudio').play();
+				});
+ 
+				//播放完毕打开心窗口
+				document.getElementById('myaudio').addEventListener('ended', function() {
+					if(settings=='true'){					 
+					      mui.openWindow({
+									url:'main.html',
+									id: 'main',
+									show: {
+										aniShow: 'slide-in-right'
+									},
+									styles:{
+										hardwareAccelerated:true
+									},
+									waiting: {
+										autoShow: false
+									},									
+								});	
+								document.getElementById('myaudio').pause();
+								console.log(1) 
+						}else{
+							document.getElementById('myaudio').play();
+					        isthis.istrue=true;
+						}				
+				});																													
+					})											
+					// 退出的逻辑 
+					api.back();
+				},
+				methods:{
+					to:function(){
+						var settings=localStorage.getItem("login");
+							if(settings=='true'){						
+						      mui.openWindow({
+										url:'main.html',
+										id: 'main',
+										show: {
+											aniShow: 'slide-in-right'
+										},
+										styles:{
+											hardwareAccelerated:true
+										},
+										waiting: {
+											autoShow: false
+										},									
+									});	
+								document.getElementById('myaudio').pause();
+									
+							}else{								
+						        this.istrue=true;
+							}
+					},
+					logins:function(thisis){
+																
+						var password1 = mui("#password")[0].value;
+						var username1 = mui("#account")[0].value
+						if(!this.isMobile(username1)){
+							mui.toast("电话号码格式不正确");
+	                         return;
+						}
+						if (password1==""){
+							mui.toast('密码不能为空');
+							return;
+						}
+					    // 登录				
+                          document.activeElement.blur(); 
+			            mui(mui('.mui-btn')[0]).button('loading');
+						
+						AV.User.logIn(username1, password1).then(function (loginedUser) {
+							console.log(username1)
+							localStorage.setItem("login",'true')
+							plus.storage.setItem('phone',username1)
+
+						      mui.openWindow({
+								url:'main.html',
+								id:'main',
+								waiting:{
+	                                autoShow:false,
+								 },
+								 styles:{
+										hardwareAccelerated:true
+									},
+								 show: {
+											aniShow: 'slide-in-right'
+										},
+							})
+						      setTimeout(function(){
+						      mui(mui('.mui-btn')[0]).button('reset')
+						      },1000) 
+						  }, (function (error) {
+						  		 mui(mui('.mui-btn')[0]).button('reset')
+                                  mui.toast(error)
+						  }));
+
+						
+//						
+					},
+					reg:function(){																													
+						var username = mui("#username")[0].value;				
+						var passwords =  mui("#password1")[0].value;
+						var nickname = mui("#nickname")[0].value;
+						
+						var passwordConfirm = mui("#password_confirm")[0].value;
+						
+						if(!this.isMobile(username)){
+							mui.toast("电话号码格式不正确");
+							return;
+						}
+						if(!this.isEmail(nickname)){
+							console.log(nickname)
+							mui.toast("邮箱格式不对");
+							return;
+						}
+						if(!this.isEmpty(passwords)){
+							mui.toast("密码不能为空");
+							return;
+						} 
+				    	
+						if (passwordConfirm != passwords) {
+							mui.toast('密码两次输入不一致');
+							return;
+						}
+						var user = new AV.User();
+						  // 设置用户名
+						  user.setUsername(username);
+						  // 设置密码
+						  user.setPassword(passwords);
+						  // 设置邮箱
+						  user.setEmail(nickname);
+						  user.signUp().then(function (loginedUser) {
+						  	 mui.toast('注册成功')
+						  	localStorage.setItem("login",'true')
+							plus.storage.setItem('phone',username)
+							  mui.openWindow({
+								url:'main.html',
+								id:'main',
+								waiting:{
+	                                autoShow:false,
+								 },
+								 styles:{
+										hardwareAccelerated:true
+									},
+								 show: {
+											aniShow: 'slide-in-right'
+										},
+							})
+	
+						  }, function (error) {
+							  	 console.log(error) 
+						  	 mui.toast(error)
+						  });
+					
+					}, 
+					// 是否为电话号码
+					isMobile:function(value) {
+		                var validateReg = /0?(13|14|15|18)[0-9]{9}/;
+						return validateReg.test(value);
+		            },
+		            // 是否为空
+					isEmpty:function(value){
+						var validateReg = /^\S+$/;
+						return validateReg.test(value);
+					},
+					 isEmail:function(value){
+						var validateReg = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/ ;
+						return validateReg.test(value);
+					}					
+				}
+			})
+					
+					
+		</script>
+	</body>
+
+</html>

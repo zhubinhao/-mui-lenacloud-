@@ -1,0 +1,190 @@
+ <!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<link rel="stylesheet" href="../css/mui.min.css">
+		<style>
+			html,
+			body {
+				background-color: #efeff4;
+			}						
+			.mui-scroll-wrapper,
+			.mui-scroll {
+				background-color: #efeff4;
+			}						
+			.mui-table-view {
+				margin-top: 20px;
+			}			
+			.mui-table-view span.mui-pull-right {
+				color: #999;
+			}
+			.mui-table-view-divider {
+				background-color: #efeff4;
+				font-size: 14px;
+			}
+			.mui-table-view-divider:before,
+			.mui-table-view-divider:after {
+				height: 0;
+			}						
+			.head-img {
+				width: 40px;
+				height: 40px;
+			}			
+			.update {
+				font-style: normal;
+				color: #999999;
+				margin-right: -25px;
+				font-size: 15px
+			}
+			.mui-fullscreen {
+				position: fixed;
+				z-index: 20;
+				background-color: #000;
+			}		
+		</style>
+	</head>
+	<body id="me">	
+			<header class="mui-bar mui-bar-nav">
+			    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			    <h1 class="mui-title">个人中心</h1>
+			</header>			
+			<div class="mui-content" >
+				<div class="mui-scroll-wrapper">
+					<div class="mui-scroll">
+						<ul class="mui-table-view mui-table-view-chevron" style="margin-top: 60px;">
+							<li class="mui-table-view-cell mui-media" v-on:tap='to("set")'>
+								<a class="mui-navigate-right" >
+									<img class="mui-media-object mui-pull-left head-img" id="head-img" src="../images/user-photo.png">
+									<div class="mui-media-body">
+										备忘录 
+										<p class='mui-ellipsis'>账号:{{phone}}</p>
+									</div>
+								</a>
+							</li>
+						</ul>
+						<ul class="mui-table-view mui-table-view-chevron">
+							<li class="mui-table-view-cell" v-on:tap='to("set")'>
+								<a class="mui-navigate-right">账号与安全</a>
+							</li>
+						</ul>
+						<ul class="mui-table-view mui-table-view-chevron">
+							<li class="mui-table-view-cell" v-on:tap='to("feed")'>
+								<a  class="mui-navigate-right">问题反馈</a>
+							</li>
+							<li class="mui-table-view-cell" v-on:tap='cun("cun")'>
+								应用缓存 <i class="mui-pull-right update" >{{kb}}</i>
+							</li>
+							<li class="mui-table-view-cell" v-on:tap='xin()'>
+								版本更新 <i class="mui-pull-right update"  >V{{banben}}</i>
+							</li>
+						</ul>
+						<ul class="mui-table-view mui-table-view-chevron">
+							<li class="mui-table-view-cell" v-on:tap='to("about")'> 
+								<a  class="mui-navigate-right">关于备忘录</a>
+							</li>
+						</ul>
+						<ul class="mui-table-view" >
+							<li class="mui-table-view-cell" style="text-align: center;" v-on:tap='tuichu()'>
+								<a>退出登录</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>	
+
+				
+
+			<p style="position: fixed; bottom: 10px;z-index: 99; width: 100%;text-align: center;">备忘录  版权所有</p>
+	</body>
+	<script src="../js/mui.min.js "></script>
+    <script src="../js/vue.js"></script>
+	<script>
+		var me = new Vue({
+			el:'#me',
+			data:{
+				phone:'',
+				banben:'',
+				kb:'',
+			},
+			ready:function(){
+				var isthis= this;
+				mui.init();
+				mui.plusReady(function(){
+					isthis.phone=plus.storage.getItem('phone');
+					 plus.runtime.getProperty(plus.runtime.appid,function(inf){					           					    	
+		                 isthis.banben=inf.version;	
+		                 isthis.headimg();
+				     });
+				      plus.cache.calculate( function ( size ) {
+      	             	size=size+10;
+//    	             	alert(size)
+//							alert( "Application cache size: " + size + " byte!" );
+                         var a=size/1024;
+                         var b = a.toFixed(2)
+							isthis.kb=b+' kb'
+						});
+				})
+			},
+			methods:{
+				cun:function(){
+					var isthis = this;
+					if(isthis.kb=='0 kb'){
+							return;					
+					}
+					plus.cache.clear( function () {
+						setTimeout(function(){
+							isthis.kb='0 kb';
+							mui.toast('清除成功')
+						},500)
+				     });
+				},
+				headimg:function(){
+				    	mui(".head-img")[0].src=plus.storage.getItem('img');
+
+				},
+				xin:function(){
+					mui.toast('已是最新版本')
+				},
+				tuichu:function(){
+					var btnArray = [{title:'退出登录'},{title:'退出应用'}] 
+                    plus.nativeUI.actionSheet( {					
+						cancel:"取消", // 0
+						buttons:btnArray
+						}, 
+						function(e){												
+							switch (e.index){
+								case 1:
+									 localStorage.clear();
+	                        		 plus.runtime.restart();
+								break;
+								case 2: plus.runtime.quit();
+								break;
+						}
+					});
+				},
+				to:function(i){
+					mui.openWindow({
+						url:i+'.html',
+						id:i,
+						waiting:{
+                                autoShow:false,
+							},
+							styles:{							
+							zindex: 3
+						},
+					})
+				}
+			}
+		})
+
+	
+		
+	</script>
+
+</html>

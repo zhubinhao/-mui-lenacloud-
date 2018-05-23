@@ -1,0 +1,118 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<style>
+			.left{
+				float: right;
+				margin: 10px;
+				color: black;
+			}
+			.right{
+				float: left;
+				margin: 10px;
+				color: black;
+				
+			}
+			.inputs{
+				border: none;
+				margin-top: 10px;
+			}
+		</style>
+	</head>
+
+	<body id="feed">
+		<header class="mui-bar mui-bar-nav">
+		    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+		    <h1 class="mui-title">问题反馈</h1>
+		    <a class=" mui-icon mui-icon-checkmarkempty mui-pull-right" style="font-size: 40px;margin-top: -5px;" v-on:tap='submit()' v-if='istrue'></a>
+		    
+		</header>
+		
+        <div class="mui-content">
+		    <a class="right">问题和意见</a> <a href="#popover" class="left ">快捷输入</a>
+        	<textarea name="" rows="5" cols="" class="mui-input-clear inputs" placeholder="请详细描述你的问题和意见..." id='text'></textarea>
+        </div>
+		<div id="popover" class="mui-popover">
+		  <ul class="mui-table-view">
+		     <li class="mui-table-view-cell" v-on:tap="click('界面显示错乱。')"><a href="#">界面显示错乱</a></li>
+			 <li class="mui-table-view-cell" v-on:tap="click('页面加载太慢了，卡出翔了。')"><a href="#">页面加载太慢了，卡出翔了</a></li>
+			 <li class="mui-table-view-cell" v-on:tap="click('偶发性崩溃。')"><a href="#">偶发性崩溃</a></li>
+			 <li class="mui-table-view-cell" v-on:tap="click('UI无法直视，丑哭了。')"><a href="#">UI无法直视，丑哭了</a></li> 
+		  </ul>
+		</div>
+		<script src="../js/av-min.js"></script>
+		<script src="../js/AV.js"></script>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/vue.js"></script>
+		<script type="text/javascript">
+			var feed = new Vue({
+				el:'#feed',
+				data:{
+					istrue:true,
+					name:''
+				},
+				ready:function(){
+					mui.init();
+					var isthis =this;
+					mui.plusReady(function(){
+					 isthis.name = plus.storage.getItem('phone')  
+						
+					})
+				},
+				methods:{ 
+					click:function(t){
+           	    		mui('.mui-popover').popover('toggle')
+						mui("#text")[0].value=mui("#text")[0].value+t;
+					},
+					submit:function(){
+
+						
+						var val= mui("#text")[0].value
+						console.log(mui("#text")[0].value);
+						if(!this.isEmpty(val)){
+						    mui.toast("反馈内容不能为空");						    					    
+							return;
+						}
+					 var isthis= this;
+					 isthis.istrue=false;
+
+					 
+					 var TodoFolder = AV.Object.extend('feedback');					 
+					 var todoFolder = new TodoFolder();
+					 todoFolder.set('content',val);
+					 todoFolder.set('username',isthis.name);
+				
+					 todoFolder.save().then(function (todo) {
+					    mui.toast("谢谢您的反馈");						    					    
+					    isthis.istrue=true;
+					    setTimeout(function(){
+
+						  var ws=plus.webview.currentWebview();
+							plus.webview.close(ws);
+                            
+						},200)
+					    
+					 }, function (error) {
+					    isthis.istrue=true;
+					 	
+						    mui.toast("请检查您的网络");						    					    
+					 });
+					},
+					
+					 // 是否为空
+					isEmpty:function(value){
+						var validateReg = /^\S+$/;
+						return validateReg.test(value);
+					}
+				}
+			})
+			mui.init()
+		</script>
+	</body>
+
+</html>

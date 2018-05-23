@@ -1,0 +1,264 @@
+{
+  "main.html": {
+    "refer": [
+      "setting.html",
+      "left.html",
+      "html/one.html",
+      "html/two.html",
+      "html/browser.html",
+      "err.html",
+      "download.html"
+    ],
+    "resources": [
+      "js/app.js",
+      "js/mui.min.js",
+      "css/mui.min.css",
+      "js/browser.js",
+      "js/vue.js",
+      "js/browser.min.js",
+      "fonts/mui.ttf",
+      "images/user-photo.png",
+      "js/av-min.js",
+      "js/AV.js",
+      "js/mui.pullToRefresh.js",
+      "js/mui.pullToRefresh.material.js",
+      "css/pullrefresh.css",
+      "js/api.js",
+      "css/main.css",
+      "images/5a0d7a8f4e6227bba72671df88070710.png"
+    ]
+  },
+  "login.html": {
+    "resources": [
+      "js/app.js",
+      "js/mui.min.js",
+      "images/sinaweibo.png",
+      "css/mui.min.css",
+      "css/style.css",
+      "images/weixin.png",
+      "images/qq.png",
+      "js/mui.enterfocus.js",
+      "js/vue.js",
+      "js/av-min.js",
+      "fonts/mui.ttf",
+      "js/AV.js",
+      "images/login.jpg",
+      "js/jquery-3.1.0.min .js",
+      "js/api.js",
+      "launch_movie.webm"
+    ],
+    "refer": [
+      "main.html",
+      "reg.html"
+    ]
+  },
+  "setting.html": {
+    "resources": [
+      "libs/easymob-webim-sdk/easemob.im-1.0.5.js",
+      "fonts/mui.ttf",
+      "libs/easymob-webim-sdk/json2.js",
+      "libs/easymob-webim-sdk/jquery-1.11.1.js",
+      "js/mui.locker.js",
+      "js/feedback.js",
+      "css/feedback-page.css",
+      "js/feedback-page.js",
+      "libs/easymob-webim-sdk/strophe-custom-2.0.0.js",
+      "js/mui.view.js"
+    ],
+    "refer": []
+  },
+  "reg.html": {
+    "resources": [
+      "js/app.js",
+      "js/mui.min.js",
+      "fonts/mui.ttf",
+      "css/mui.min.css",
+      "css/style.css",
+      "js/av-min.js",
+      "js/AV.js"
+    ],
+    "refer": []
+  },
+  "left.html": {
+    "resources": [
+      "css/mui.min.css",
+      "js/mui.min.js",
+      "css/style.css",
+      "images/user-photo.png",
+      "fonts/mui.ttf",
+      "css/iconfont.css",
+      "fonts/iconfont.ttf",
+      "js/vue.js",
+      "js/av-min.js",
+      "js/AV.js",
+      "js/api.js"
+    ],
+    "refer": [
+      "html/biaoqian.html",
+      "html/me.html"
+    ]
+  },
+  "html/one.html": {
+    "resources": [
+      "js/mui.min.js",
+      "fonts/mui.ttf",
+      "css/mui.min.css",
+      "js/vue.js",
+      "css/style.css",
+      "css/iconfont.css",
+      "fonts/iconfont.ttf",
+      "images/Koala.jpg",
+      "js/av-min.js",
+      "js/AV.js",
+      "js/mui.zoom.js",
+      "js/mui.previewimage.js",
+      "css/tupianyulan.css"
+    ],
+    "refer": []
+  },
+  "html/two.html": {
+    "resources": [
+      "js/mui.min.js",
+      "fonts/mui.ttf",
+      "css/mui.min.css",
+      "css/style.css",
+      "js/vue.js",
+      "js/av-min.js",
+      "js/AV.js",
+      "css/iconfont.css",
+      "fonts/iconfont.ttf",
+      "css/tupianyulan.css",
+      "js/mui.zoom.js",
+      "js/mui.previewimage.js",
+      "err.html",
+      "js/html2canvas.js",
+      "js/jquery-3.1.0.min .js",
+      "js/canvas2image.js"
+    ],
+    "refer": [
+      "html/f.html",
+      "err.html"
+    ]
+  },
+  "html/f.html": {
+    "resources": [
+      "css/mui.min.css",
+      "js/mui.min.js"
+    ],
+    "refer": []
+  },
+  "html/browser.html": {
+    "resources": [
+      "js/app.js",
+      "js/mui.min.js",
+      "fonts/mui.ttf",
+      "css/mui.min.css",
+      "css/mui.css"
+    ]
+  },
+  "html/biaoqian.html": {
+    "resources": [
+      "css/mui.min.css",
+      "css/style.css",
+      "css/iconfont.css",
+      "js/vue.js",
+      "fonts/mui.ttf",
+      "fonts/iconfont.ttf"
+    ]
+  },
+  "html/me.html": {
+    "resources": [
+      "css/mui.min.css",
+      "js/vue.js",
+      "js/mui.min.js",
+      "fonts/mui.ttf",
+      "images/user-photo.png"
+    ],
+    "refer": [
+      "html/set.html",
+      "html/feed.html",
+      "html/about.html",
+      "html/cun.html"
+    ]
+  },
+  "html/set.html": {
+    "resources": [
+      "js/mui.min.js",
+      "css/mui.min.css",
+      "fonts/mui.ttf",
+      "js/app.js",
+      "js/vue.js",
+      "js/mui.previewimage.js",
+      "js/mui.zoom.js",
+      "images/user-photo.png",
+      "css/style.css",
+      "js/av-min.js",
+      "js/AV.js"
+    ]
+  },
+  "html/feed.html": {
+    "resources": [
+      "js/mui.min.js",
+      "css/mui.min.css",
+      "fonts/mui.ttf",
+      "js/vue.js",
+      "js/av-min.js",
+      "js/AV.js"
+    ]
+  },
+  "html/about.html": {
+    "resources": [
+      "js/mui.min.js",
+      "fonts/mui.ttf",
+      "css/mui.min.css",
+      "js/vue.js"
+    ],
+    "refer": [
+      "html/aboutlist.html"
+    ]
+  },
+  "html/cun.html": {
+    "resources": [
+      "js/mui.min.js",
+      "fonts/mui.ttf",
+      "css/mui.min.css"
+    ]
+  },
+  "html/aboutlist.html": {
+    "resources": [
+      "css/mui.min.css"
+    ]
+  },
+  "121.html": {
+    "resources": [
+      "js/mui.min.js",
+      "js/jquery-3.1.0.min .js",
+      "js/av-min.js",
+      "css/mui.min.css",
+      "js/AV.js"
+    ]
+  },
+  "err.html": {
+    "resources": [
+      "css/mui.min.css",
+      "js/mui.min.js",
+      "images/be68d6f1d123a14669da6a071a2176bf.png"
+    ]
+  },
+  "index.html": {
+    "resources": [
+      "launch_movie.webm",
+      "js/mui.min.js",
+      "fonts/mui.ttf",
+      "css/mui.min.css"
+    ]
+  },
+  "ceshi.html": {
+    "resources": [
+      "js/html2canvas.js",
+      "js/mui.min.js",
+      "js/jquery-3.1.0.min .js",
+      "css/mui.css"
+    ]
+  }
+}

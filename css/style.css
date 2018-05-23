@@ -1,0 +1,283 @@
+.ui-page-login,
+body {
+	width: 100%;
+	height: 100%;
+	margin: 0px;
+	padding: 0px;
+}
+.mui-content{height: 100%;}
+.head-left{
+	height: 120px;
+	width: 100%;
+	background-color: cornflowerblue;
+}
+.head-img{
+	height: 50px;
+	width: 50px;
+	border-radius: 50%;
+	background-color: lightskyblue;
+	margin-left: 10px;
+	margin-top: 30px;
+}
+.head-left p{
+	color: white !important;
+	padding-left: 10px;margin-top: 5px;font-size: 17px;
+}
+.head-left i{
+	position: absolute;
+	top:45px;
+	right: 20px;
+	color: white;
+	font-size: 30px;
+}
+.gehe{
+	background-color: gainsboro;
+	height: 35px;
+	line-height: 41px;
+	color: black;
+	padding-left: 10px;
+}
+.gehe-i{
+	/*position: absolute;*/
+	/*left: -9px;*/
+	color: black;
+	/*z-index: 999999;*/
+	/*top:300px*/
+}
+.icon1{
+	margin-right: 7px;
+	font-size: 30px;
+	color: sandybrown;
+}
+.icon2{
+	margin-right: 7px;
+	font-size: 30px;
+	color: darkolivegreen;
+}
+.icon3{
+	margin-right: 7px;
+	font-size: 30px;
+	color: darkmagenta;
+}
+.icon4{
+	margin-right: 7px;
+	font-size: 30px;
+	color: green;
+}
+.icon5{
+	margin-right: 7px;
+	font-size: 30px;
+	color: cyan;
+}
+.i-right{
+	float: right;
+	margin-top: 9px;
+	margin-right: 9px;
+	color: blue;
+	font-weight: 500;
+}
+.timep{
+	margin-top: 20px;
+	margin-left: 10px;
+}
+.timep a{
+	float: right;
+	margin-right:0px;
+	/*background-color: red;*/
+	font-size: 20px;
+	padding: 5px;
+}
+.ont-foot{
+	width: 90%;
+	height: 40px;
+	border-radius: 20px;
+	border: 1px solid gainsboro;
+	box-shadow: 1px 1px 1px gainsboro;
+	position: fixed;
+	bottom: 10px;
+	left: 5%;
+	background-color: white;
+	padding: 2px;
+	opacity: 0.6;
+}
+.ont-foot div{
+	width: 33%;
+	float: left;
+	text-align: center;
+
+}
+.ont-foot div i{
+	color: blue;
+}
+.ont-foot div p{
+	font-size: 11px !important;
+	color: black !important;
+	line-height: 10px;
+}
+.two-foot{
+	width: 80%;
+	height: 40px;
+	background-color: red;
+	z-index: 9999;
+	border-radius: 20px;
+	position: fixed;
+	bottom: 10px;
+	left: 10%;
+	
+}
+.two-foot div{
+	width: 33%;
+	float: left;
+	background-color: beige;
+}
+.mui-preview-image.mui-fullscreen {
+	position: fixed;
+	z-index: 20;
+	background-color: #000;
+}
+.mui-preview-header,
+.mui-preview-footer {
+	position: absolute;
+	width: 100%;
+	left: 0;
+	z-index: 10;
+}
+.mui-preview-header {
+	height: 44px;
+	top: 0;
+}
+.mui-preview-footer {
+	height: 50px;
+	bottom: 0px;
+}
+.mui-preview-header .mui-preview-indicator {
+	display: block;
+	line-height: 25px;
+	color: #fff;
+	text-align: center;
+	margin: 15px auto 4;
+	width: 70px;
+	background-color: rgba(0, 0, 0, 0.4);
+	border-radius: 12px;
+	font-size: 16px;
+}
+.mui-preview-image {
+	display: none;
+	-webkit-animation-duration: 0.5s;
+	animation-duration: 0.5s;
+	-webkit-animation-fill-mode: both;
+	animation-fill-mode: both;
+}
+.mui-preview-image.mui-preview-in {
+	-webkit-animation-name: fadeIn;
+	animation-name: fadeIn;
+}
+.mui-preview-image.mui-preview-out {
+	background: none;
+	-webkit-animation-name: fadeOut;
+	animation-name: fadeOut;
+}
+.mui-preview-image.mui-preview-out .mui-preview-header,
+.mui-preview-image.mui-preview-out .mui-preview-footer {
+	display: none;
+}
+.mui-zoom-scroller {
+	position: absolute;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	align-items: center;
+	-webkit-box-pack: center;
+	-webkit-justify-content: center;
+	justify-content: center;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	margin: 0;
+	-webkit-backface-visibility: hidden;
+}
+.mui-zoom {
+	-webkit-transform-style: preserve-3d;
+	transform-style: preserve-3d;
+}
+.mui-slider .mui-slider-group .mui-slider-item img {
+	width: auto;
+	height: auto;
+	max-width: 100%;
+	max-height: 100%;
+}
+.mui-android-4-1 .mui-slider .mui-slider-group .mui-slider-item img {
+	width: 100%;
+}
+.mui-android-4-1 .mui-slider.mui-preview-image .mui-slider-group .mui-slider-item {
+	display: inline-table;
+}
+.mui-android-4-1 .mui-slider.mui-preview-image .mui-zoom-scroller img {
+	display: table-cell;
+	vertical-align: middle;
+}
+.mui-preview-loading {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	display: none;
+}
+.mui-preview-loading.mui-active {
+	display: block;
+}
+.mui-preview-loading .mui-spinner-white {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	margin-left: -25px;
+	margin-top: -25px;
+	height: 50px;
+	width: 50px;
+}
+.mui-preview-image img.mui-transitioning {
+	-webkit-transition: -webkit-transform 0.5s ease, opacity 0.5s ease;
+	transition: transform 0.5s ease, opacity 0.5s ease;
+}
+@-webkit-keyframes fadeIn {
+	0% {
+		opacity: 0;
+	}
+	100% {
+		opacity: 1;
+	}
+}
+@keyframes fadeIn {
+	0% {
+		opacity: 0;
+	}
+	100% {
+		opacity: 1;
+	}
+}
+@-webkit-keyframes fadeOut {
+	0% {
+		opacity: 1;
+	}
+	100% {
+		opacity: 0;
+	}
+}
+@keyframes fadeOut {
+	0% {
+		opacity: 1;
+	}
+	100% {
+		opacity: 0;
+	}
+}
+p img {
+	max-width: 100%;
+	height: auto;
+}

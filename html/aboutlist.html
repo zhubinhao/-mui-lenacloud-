@@ -1,0 +1,55 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.min.css" rel="stylesheet" />
+	</head>
+
+	<body id="aboutlist">
+		<header class="mui-bar mui-bar-nav">
+		    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+		    <h1 class="mui-title">{{title}}</h1>
+		</header>
+		<div class="mui-content" style="padding-left:10px ;padding-right: 10px;margin-top: 10px;">
+			<p v-for="i in itm" style="font-size: 17px;color: black;">{{i}}</p>
+			
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/vue.js"></script>
+		<script type="text/javascript">
+
+			var aboutlist = new Vue({
+				el:"#aboutlist",
+				data:{
+					id:'',
+					title:'',
+					itm:[]
+				},
+				ready:function(){
+					var isthis = this;
+					mui.init()				
+					window.addEventListener('aboutId',function(event){
+//					  console.log(event.detail.id)
+					  isthis.id = event.detail.id;
+					  isthis.title=event.detail.title;
+					  var itms=[["1、优化了退出登录",'2、添加了删除备忘录提示','3、增加了更换头像功能','4、备忘录界面的优化','5、下拉刷新的优化','6、解决图片上传问题'],
+					  ["1、添加了反馈功能",'2、添加了自定义标签功能',"3、添加了版本信息功能"],
+					  ["1、解决首页排序问题","2、解决首页显示问题","3、添加图片预览功能","4、优化图片清晰度","5、表格状态下的删除按钮的优化","6、发表页面的优化"],
+					  ["1、优化了添加备忘录页面","2、提高了切换备忘录的用户体验",'3、头像优化'],
+					  ['1、添加了分享功能','2、添加了热更新','3、界面的微调','4、侧菜单栏的优化']];
+						for(var i = 0 ; i < itms.length ; i++){
+							if(i==isthis.id){
+								 isthis.itm=itms[i];
+						         console.log(itms[i])								
+							}
+						}
+					});
+				}
+			})
+		</script>
+	</body>
+
+</html>

@@ -1,0 +1,230 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="css/style.css" />
+		<link rel="stylesheet" type="text/css" href="css/iconfont.css"/>
+	</head>
+	<body id='left'>
+     <div class="mui-content">
+     	<div class="head-left">
+     		<img src="images/user-photo.png" alt="" class="head-img" style="margin-left: 20px;" v-on:tap='toggleimg()'/>
+     		<p>{{nc}}</p>
+     		<i class="mui-icon mui-icon-upload" v-on:tap='out()'></i>
+     	</div>
+     	<p class="gehe">备忘录</p>
+     	<ul class="mui-table-view" style="margin-top: -9px;padding-right: 20px;">
+     	        <li class="mui-table-view-cell" style="padding-right: 10px;" v-on:tap='toggle("all","备忘录")'>
+     	           <i class="icon iconfont icon-beiwanglu gehe-i" style="font-size: 20px;margin-right: 4px;"></i> 
+     	                              备忘录&nbsp;({{all}})
+     	        </li>
+     	        <li class="mui-table-view-cell" v-on:tap='toggle("d","待办")'>
+     	           <i class="icon iconfont icon-daiban gehe-i" style="font-size: 20px;margin-right: 4px;"></i>      	            
+     	                                     待&nbsp;&nbsp;&nbsp;办&nbsp; ({{d}})    	            
+     	        </li>
+     	        <li class="mui-table-view-cell" v-on:tap='toggle("s","我的收藏")'>
+     	           <i class="mui-icon mui-icon-star gehe-i"></i>  	            
+     	                               收&nbsp;&nbsp;&nbsp;藏&nbsp; ({{s}})    	            
+     	        </li>
+     	    </ul>
+     	    <p class="gehe">标签  <i class="mui-icon mui-icon-compose i-right" v-on:tap='zidingyi()'></i></p>
+     	    <ul class="mui-table-view" style="margin-top: -9px;padding-right: 20px;">
+     	        <li class="mui-table-view-cell" style="padding-right: 10px;" v-on:tap='toggle(1,itm[0])'>
+     	           <i class="icon iconfont icon-biaoqian icon1" ></i>     	
+     	                       {{itm[0]}}     <span class="mui-badge">{{l}}</span> 	           
+     	        </li>
+     	        <li class="mui-table-view-cell" v-on:tap='toggle(2,itm[1])'>
+     	           <i class="icon iconfont icon-biaoqian icon2"></i>     	  	            
+     	                  {{itm[1]}}  <span class="mui-badge">{{g}}</span>   	                	            
+     	        </li>
+     	        <li class="mui-table-view-cell" v-on:tap='toggle(3,itm[2])'>
+     	           <i class="icon iconfont icon-biaoqian icon3"></i>     	            
+     	                           {{itm[2]}} <span class="mui-badge">{{sh}}</span>     	               	            
+     	        </li>
+     	         <li class="mui-table-view-cell" v-on:tap='toggle(4,itm[3])'>
+     	            <i class="icon iconfont icon-biaoqian icon4"></i>     	    	            
+     	                       {{itm[3]}} <span class="mui-badge">{{gz}}</span>   	                 	            
+     	        </li>
+     	        <li class="mui-table-view-cell" v-on:tap='toggle(5,itm[4])'>
+     	            <i class="icon iconfont icon-biaoqian icon5"></i>     	    	            
+     	                         {{itm[4]}} <span class="mui-badge">{{w}}</span>  	               	            
+     	        </li>
+     	    </ul>
+     </div> 
+	    <script src="js/av-min.js"></script>
+		<script src="js/AV.js"></script>
+	    
+		<script src="js/vue.js"></script>
+		<script src="js/mui.min.js"></script>
+		<script src="js/api.js"></script>
+		<script type="text/javascript">
+		var main;
+		var left = new Vue({
+			el:"#left",
+			data:{
+				all:'',
+				d:"",
+				s:'',
+				l:'',
+				g:'',
+				sh:'',
+				gz:'',
+				w:'',
+				phone:'',
+				itm:[],
+				nc:''
+			},
+			ready:function(){
+				console.log(1)
+			    mui.init()
+			    var isthis=this;
+				mui.plusReady(function(){
+					main = plus.webview.currentWebview().opener();				    
+					isthis.phone=plus.storage.getItem('phone');
+					isthis._biaoqi();
+					isthis.list();
+					isthis.nicheng();					
+				})
+				api.back();
+				
+						
+			},
+			methods:{
+				nicheng:function(){
+					var isthis = this;
+					 var query = new AV.Query('_User');
+					  query.equalTo('username',isthis.phone);
+					  query.find().then(function (results) { 					  
+						var data =  JSON.parse(JSON.stringify(results));
+					  	isthis.nc=data[0].nc;
+					  	plus.storage.setItem('img',data[0].img)
+					  	mui(".head-img")[0].src=plus.storage.getItem('img');
+					  	if(isthis.nc==''||isthis.nc==undefined){
+					  		isthis.nc=isthis.phone;
+					  	}
+					  	console.log(isthis.nc)			    
+					  }, function (error) {
+					  	console.log(error)
+						    mui.toast("请检查您的网络")
+					  	
+					  });
+				},
+				headimg:function(){
+					if(plus.storage.getItem('img')){
+				    	mui(".head-img")[0].src=plus.storage.getItem('img');
+				    	
+				    }
+				},
+				_biaoqi:function(){
+			    var isthis=this;		  			
+					if(plus.storage.getItem('biaoqi')==null){
+
+						var a = ['旅游','个人','生活','工作','未标签']
+						console.log(a.join("-"))
+						plus.storage.setItem('biaoqi', a.join("-")); 
+						console.log(plus.storage.getItem('biaoqi'))
+						isthis.itm=a
+					}else{
+
+						isthis.itm=plus.storage.getItem('biaoqi').split('-')
+						console.log(isthis.itm)
+						
+					}
+				},
+				zidingyi:function(){
+					mui.openWindow({
+						url:'html/biaoqian.html',
+						id:'biaoqian',
+						waiting:{
+                                autoShow:false,
+							}, 
+					})
+				},
+				list:function(){ 
+					this.all=0;
+					this.d=0;
+					this.s=0;
+					this.l=0;
+					this.g=0;
+					this.sh=0;
+					this.gz=0;
+					this.w=0;
+					var isthis=this;					
+					var phones = isthis.phone				
+					var query = new AV.Query('beiwanglu');		
+			        query.equalTo('phone', phones);						    
+				    query.find().then(function (results) {
+				     	   var data =  JSON.parse(JSON.stringify(results));
+				     	   isthis.all=data.length;
+				     	   for(var i = 0 ; i < data.length ; i++){
+				     	   	  if(data[i].daiban==phones){isthis.d++;}
+				     	   	  if(data[i].shouchang==phones){isthis.s++;}
+				     	   	  if(data[i].type=='1'){isthis.l++;}
+				     	   	  if(data[i].type=='2'){isthis.g++;}
+				     	   	  if(data[i].type=='3'){isthis.sh++;}
+				     	   	  if(data[i].type=='4'){isthis.gz++;}
+				     	   	  if(data[i].type=='5'){isthis.w++;}
+				     	   }					  ;
+//					     console.log(data)
+				     }, function (error) {
+				     	mui.toast("请检查您的网络")
+					 });
+				},
+				toggle:function(i,title){
+					mui.fire(main,"menu:swipeleft");
+					var ii= plus.webview.getWebviewById('main')
+					var a="thismain.list('"+i+"','"+title+"')";			 		
+					 ii.evalJS(a)
+					
+				},
+				out:function(){
+//					
+					var btnArray = [{title:'退出登录'},{title:'退出应用'}] 
+                  plus.nativeUI.actionSheet( {
+					
+					cancel:"取消", // 0
+					buttons:btnArray
+					}, 
+					function(e){												
+						switch (e.index){
+							case 1:
+								 localStorage.clear();
+                        		 plus.runtime.restart();
+							break;
+							case 2: plus.runtime.quit();
+							break;
+						}
+				} );
+				},
+				toggleimg:function(){
+					setTimeout(function(){
+					mui.fire(main,"menu:swipeleft");                  
+					},700)                   
+					mui.openWindow({
+						url:'html/me.html',
+						id:'me',
+						styles:{							
+							zindex: 2,
+							
+						},
+						waiting:{
+                                autoShow:false,
+							}, 
+							
+							 show:{						      
+						      aniShow:'slide-in-right',//页面显示动画，默认为”slide-in-right“；
+					      
+						    },
+					})
+				}
+			}
+		})
+
+		</script>
+	</body>
+
+</html>

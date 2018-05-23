@@ -1,0 +1,311 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.min.css" rel="stylesheet" />		
+		<link rel="stylesheet" type="text/css" href="../css/style.css"/>
+		<style>
+			.head-img {
+				width: 40px;
+				height: 40px;				
+				position: absolute;
+				background-color: white;
+				top:-13px;
+				right: 38px;
+			}
+			input{ 
+				border: none; 
+				text-align: end;			
+			}
+			
+		</style>
+	</head>   
+	<body id="set">
+		 <header class="mui-bar mui-bar-nav bg">
+	         <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+	         <h1 class="mui-title">账号与安全</h1>
+		    <a class=" mui-icon mui-icon-checkmarkempty mui-pull-right" style="font-size: 40px;margin-top: -5px;" v-on:tap='submit()' v-if='istrue'></a>
+	         
+	     </header>
+     <div class="mui-content">
+   
+		<div class="mui-scroll">
+			<ul class="mui-table-view" style="margin-top: 20px;">
+				<li class="mui-table-view-cell" v-on:tap="head()">
+					<a class="mui-navigate-right" style="line-height: 50px;">头像
+					<span class="mui-pull-right head">	
+					</span>
+				</a>
+				</li>
+				<img class="head-img mui-action-preview " id="head-img" v-bind:src="img" data-preview-src="" data-preview-group="1" />								
+				<li class="mui-table-view-cell"> 
+					<a>账号<span class="mui-pull-right">{{itm.username}}</span></a>
+				</li>
+				<li class="mui-table-view-cell"> 
+					<a>昵称<input class="mui-pull-right" value="{{nc}}" id="sj"></input></a>
+				</li>
+			</ul>
+			<ul class="mui-table-view" style="margin-top: 20px;">
+				
+				<li class="mui-table-view-cell">
+					<a>手机号<span class="mui-pull-right">{{itm.username}}</span></a>
+				</li>
+				<li class="mui-table-view-cell" >
+					<a>邮箱地址<span class="mui-pull-right">{{itm.email}}</span></a>
+				</li>
+			</ul>
+		</div>
+
+    </div>	 
+        <script src="../js/av-min.js"></script>
+		<script src="../js/AV.js"></script>
+    
+		<script src="../js/vue.js"></script>
+		<script src="../js/mui.min.js"></script> 
+		<script src="../js/mui.zoom.js"></script>
+        <script src="../js/mui.previewimage.js"></script>
+
+		<script type="text/javascript">
+
+		var set=new Vue({
+			el:'#set',
+			data:{
+				phone:'',
+				itm:'',
+				img:'',
+				nc:'',
+				istrue:true
+			},
+			ready:function(){
+//			 mui.init()
+		  mui.previewImage();
+			
+			   var serf=this;
+			   mui.plusReady(function(){		   
+      	          serf.img = plus.storage.getItem("img");		   	
+                 serf.phone = plus.storage.getItem("phone");
+			     serf.list();
+			        
+			   })			 				
+			},
+			methods:{
+				submit:function(){
+					var isthis =this;
+					var a = mui("#sj")[0].value;
+					if(a==''){
+						mui.toast('昵称不能为空');
+						return;
+					}
+					 isthis.istrue=false;
+					
+					var query = new AV.Query('_User');
+					  query.equalTo('username',this.phone);					  						      					      
+						   query.find().then(function (todos) {
+						    todos.forEach(function(todo) {								    								    					    							     
+						      todo.set('nc',a);							      							     							      
+						    });
+						    return AV.Object.saveAll(todos);
+						  }).then(function(todos) {	
+					 	  	
+					        var jj = plus.webview.getWebviewById('left')
+						    jj.evalJS("left.nicheng()")
+						    mui.toast("更新成功")
+						    isthis.istrue=true;
+						    setTimeout(function(){
+	
+							  var ws=plus.webview.currentWebview();
+								plus.webview.close(ws);
+	                            
+							},200)
+						    // 更新成功
+						  }, function (error) {							  	 					    	    						  	
+						    // 异常处理
+						    isthis.istrue=true;
+						    
+						    mui.toast("请检查您的网络")
+						    mui("#shou")[0].style.color='blue';
+						    
+						  }); 
+					
+				},
+				list:function(){
+					 var isthis = this;
+					 console.log(this.phone) 
+					 var query = new AV.Query('_User');
+					  query.equalTo('username',this.phone);
+					  query.find().then(function (results) {					  
+						var data =  JSON.parse(JSON.stringify(results));
+					  	isthis.itm=data[0];
+					  	isthis.nc=data[0].nc;
+					  	if(isthis.nc==''||isthis.nc==undefined){
+					  		isthis.nc=isthis.phone;
+					  	}
+					  	console.log(isthis.itm)			    
+					  }, function (error) {
+					  	console.log(error)
+						    mui.toast("请检查您的网络")
+					  	
+					  });
+				},					
+				head:function(){
+					var sre = this;
+					a=[{
+						title: "拍照"
+					}, {
+						title: "从手机相册选择"
+					}];
+					plus.nativeUI.actionSheet({
+						title: "修改头像",
+						cancel: "取消",
+						buttons: a
+					},function(b){
+						switch(b.index){
+							case 0:
+							    break;
+							case 1:
+								sre.getImage();
+								break;
+							case 2:
+								sre.galleryImg();
+								break;
+							default:
+								break
+						}
+					})
+				},
+				//拍照
+			     getImage:function(){
+			     	var getI=this;
+			        var mobileCamera=plus.camera.getCamera();
+			        mobileCamera.captureImage(function(e){
+			            plus.io.resolveLocalFileSystemURL(e,function(entry){
+			                var path=entry.toLocalURL()+'?version='+new Date().getTime();
+			                getI.uploadHeadImg(path);
+			            },function(err){
+			                mui.toast("读取拍照文件错误");
+			            });
+			        },function(e){
+			            mui.toast("错误：",err);
+			        },function(){
+			            filename:'_doc/head.png';
+			        });
+			    },
+			
+			    //从本地相册选择
+			     galleryImg:function(){
+			     	var gall=this;
+			        console.log("你选择了从相册选择");
+			        plus.gallery.pick(function(a){
+			            plus.io.resolveLocalFileSystemURL(a,function(entry){
+			                plus.io.resolveLocalFileSystemURL('_doc/',function(root){
+			                    root.getFile('head.png',{},function(file){
+			                        //文件已经存在
+			                        file.remove(function(){
+			                            console.log("文件移除成功");
+			                            entry.copyTo(root,'head.png',function(e){
+			                                var path=e.fullPath+'?version='+new Date().getTime();
+			                                gall.uploadHeadImg(path);
+			                            },function(err){
+			                                console.log("copy image fail: ",err);
+			                            });
+			                        },function(err){
+			                            console.log("删除图片失败：（"+JSON.stringify(err)+")");
+			                        });
+			                    },function(err){
+			                        //打开文件失败
+			                        entry.copyTo(root,'head.png',function(e){
+			                            var path=e.fullPath+'?version='+new Date().getTime();
+			                            gall.uploadHeadImg(path);
+			                        },function(err){
+			
+			                            mui.alert("上传图片失败：（"+JSON.stringify(err)+")");
+			                        });
+			                    });
+			                },function(e){
+			                    mui.alert("读取文件夹失败：（"+JSON.stringify(err)+")");
+			                });
+			            });
+			        },function(err){
+			            mui.alert("读取拍照文件失败: ",err);
+			        },{
+			            filter:'image'
+			        });
+			    },			
+			    //上传图片
+			     uploadHeadImg:function(imgPath){
+			     	var upl=this;
+			        var mainImg=document.getElementById('head-img');			       
+			        mainImg.src=imgPath;			
+			       var image = new Image();
+				    image.src = imgPath;
+				    image.onload = function() {
+				    var imgData = "data:image/png;base64,"+upl.getBase64Image(image);
+				    console.log(upl.getBase64Image(image))
+				    
+				     var data = { base64: upl.getBase64Image(image)};
+				    var file = new AV.File('resume1.png', data);
+                     file.save().then(function(dat){
+                     	var data =  JSON.parse(JSON.stringify(dat));
+                     	console.log(data.url)
+                     	
+                     var query = new AV.Query('_User');
+					  query.equalTo('username',upl.phone);					  						      					      
+						   query.find().then(function (todos) {
+						    todos.forEach(function(todo) {								    								    					    							     
+						      todo.set('img',data.url);							      							     							      
+						    });
+						    return AV.Object.saveAll(todos);
+						  }).then(function(todos) {						 	  						        
+						    mui.toast("头像更换成功")						   
+						    // 更新成功
+						  }, function (error) {							  	 					    	    						  	
+						    // 异常处理						    
+						    mui.toast("头像更换失败，请检查您的网络")												    
+						  });                    	                     	
+                    });				    				    
+				     plus.storage.setItem("img",imgData);
+				     var i = plus.webview.getWebviewById("left");						        						         
+						 i.evalJS("left.headimg()");
+						 var ii = plus.webview.getWebviewById("me");						        						         
+						 ii.evalJS("me.headimg()");
+//				   
+				    }
+			    },
+			
+			 
+			    //压缩图片转成base64
+			     getBase64Image:function(img){
+			     	 var canvas = document.createElement("canvas");
+				    var width = img.width;
+				    var height = img.height;
+//				     calculate the width and height, constraining the proportions
+				    if(width > height) {
+				    if(width > 888) {
+				        height = Math.round(height *= 888 / width);
+				        width = 888;
+				    }
+				    } else {
+				    if(height > 888) {
+				        width = Math.round(width *= 888 / height);
+				        height = 888;
+				    }
+				    }
+				    canvas.width = width; /*设置新的图片的宽度*/
+				    canvas.height = height; /*设置新的图片的长度*/
+//				   alert(canvas.width)
+				    var ctx = canvas.getContext("2d");
+				    ctx.drawImage(img, 0, 0, width, height); /*绘图*/
+				    var dataURL = canvas.toDataURL("image/png", 0.8);
+//				    alert(dataURL)
+				    return dataURL.replace("data:image/png;base64,", "");
+			}
+			}
+		})
+//
+		</script>
+	</body>
+
+</html>

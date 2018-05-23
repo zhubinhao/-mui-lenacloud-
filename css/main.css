@@ -1,0 +1,104 @@
+ul {
+				font-size: 14px;
+				color: #8f8f94;
+			}			
+			.ico{
+				width: 40px;
+				height: 40px;
+				background-color: orange ;
+				margin: auto 0;line-height: 41px; 
+				border-radius: 50%;
+				font-size: 18px !important;
+			}
+			.mui-btn-padding{
+				padding: 0 !important;
+				padding-right: 10px !important;
+				background-color: rgba(0,0,0,0);
+			}
+			.mui-display{
+			  float: left;	
+			  padding: 0;
+			  margin: 0;
+			  height: 200px;
+			  
+			  background-color: white;
+			  margin-top: 3px;
+			 padding-right: 5px;
+			 border-top: none !important;			 
+			}
+			.mui-display a i:first-child{				
+			 width: 40px;
+			 position: relative;
+			 top:-40px;
+			 left: -0px;
+			}
+			.mui-display a i:last-child{							
+			 position: absolute;
+			 top:110px;
+			 left: -0px;
+			}			
+			.imgs{
+				width: 100%;
+				height: 150px;
+				margin: 0;padding: 0;
+			}
+			.imgsdiv{
+				background-color: gainsboro;
+				position: relative;
+				top:-7px;
+				height: 55px;
+				padding-left: 10px;padding-right: 10px;
+			}
+			.add{
+				width: 100px;
+				height: 40px;
+				margin-left: -50px;
+				border-radius: 20px;
+				background-color: white;
+				border: 1px solid gainsboro;
+				position: fixed;				
+				bottom: 10px;
+				left: 50%;		
+				text-align: center;		
+				opacity: 0.7;			
+			}
+			.add1{
+				width: 40px;
+				height: 40px;
+				background-color: gray;
+				border-radius: 50%;
+				text-align: center;
+				line-height: 50px;
+				font-size: 30px;
+				font-weight: 600;
+				color: white;
+				position: fixed;				
+				bottom: 10px;
+				right: 12px;		
+				text-align: center;	
+				display: none;	
+			}
+			.add i{
+				color: blue;
+				font-size: 30px;
+
+			}
+			.add p{
+				font-size: 9px !important;
+				line-height: 1px;
+				color: black;
+			}
+			img{
+				border: 1px solid gainsboro;
+			}
+			.wl{
+				
+				left: 0;
+				
+				width: 100%;
+				height: 40px;
+				line-height: 40px;
+				background-color: palevioletred;
+				
+				font-size: 13px;
+			}

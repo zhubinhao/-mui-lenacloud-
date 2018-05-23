@@ -1,0 +1,373 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>add</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="../css/style.css" />
+		<link rel="stylesheet" type="text/css" href="../css/tupianyulan.css"/>
+		<link rel="stylesheet" type="text/css" href=" ../css/iconfont.css"/>
+	</head>
+   <style>
+   	.aa{
+   		font-size: 35px !important;
+   	}
+   	#txt{
+   		padding: 10px;
+   		width: 100%;
+   		padding-bottom: 40px;
+   	}
+   	img{ 
+   		width: 100%;margin-bottom: 20px;
+   	}
+   	#topPopover {
+		position: fixed;
+		top: 16px;	
+		right: 31px;
+		padding-right: 10px !important;	
+	}
+	#topPopover .mui-popover-arrow {
+		left: auto;
+		right: 6px;
+	}
+	
+	
+	.mui-popover {
+		height: 300px;
+	}
+	.mui-content {
+		padding: 10px;
+	}
+	.mui-table-view div{
+		text-align: center;
+		border-bottom: 2px solid gainsboro;
+		padding-bottom: 10px;
+		padding-top: 5px;
+	}
+	.mui-table-view  li{
+		padding-right: 10px;
+	}
+	.element.style{
+		left: 0 !important;
+	}
+	.ont-foot div a{
+		display: block;
+		width: 40%;
+		margin: 0 auto;		
+	}
+	
+   </style>
+	<body id="one">
+		<header class="mui-bar mui-bar-nav">
+		    <a class="mui-action-back mui-icon  mui-icon-closeempty mui-pull-left aa"></a>
+		    <h1 class="mui-title">{{title}}</h1>
+		    <a class=" mui-icon mui-icon-checkmarkempty mui-pull-right aa" v-on:tap='submits()' v-if='gou'></a>	    
+		</header>
+		<div class="mui-content">
+			<p class="timep">{{DATAS}} <a class="icon iconfont icon-biaoqian {{'icon'+type}}" href="#topPopover" id='aaa'></a></p>
+			<input type="checkbox" name="" id="" value="" v-if='daiban' style="float: left;margin-top: 13px;margin-left: -5px;"/>
+			<div contentEditable="true" id='txt' v-on:tap='write()'></div>		   
+		</div>
+		<div class="ont-foot" v-if='gou'>
+			<div ><a v-on:tap='ddd()'><i class="icon iconfont icon-daiban" ></i><p>待办</p></a></div>
+			<div ><a v-on:tap='galleryImg()'><i class="icon iconfont icon-tupian"></i><p>图片</p></a></div>
+			<div ><a v-on:tap='getImage()'><i class="icon iconfont icon-paizhao" ></i><p>拍照</p></a></div>						
+		</div> 		
+		 <div id="topPopover" class="mui-popover">
+			<div class="mui-popover-arrow"></div>
+			<div class="mui-scroll-wrapper">
+				<div class="mui-scroll">
+					<ul class="mui-table-view">
+						<div>添加标签</div>
+						<li class="mui-table-view-cell" v-on:tap='bq(1,"sandybrown")'>
+							 <i class="icon iconfont icon-biaoqian icon1" ></i>     	
+     	                                            {{itm[0]}}  
+						</li>
+						<li class="mui-table-view-cell" v-on:tap='bq(2,"darkolivegreen")'>
+							
+						 <i class="icon iconfont icon-biaoqian icon2"></i>     	  	            
+     	                                            {{itm[1]}}      	                 	
+						</li>
+						<li class="mui-table-view-cell" v-on:tap='bq(3,"darkmagenta")'>
+						<i class="icon iconfont icon-biaoqian icon3"></i>     	            
+     	                                         {{itm[2]}}
+						</li>
+						<li class="mui-table-view-cell" v-on:tap='bq(4,"green")'>
+						<i class="icon iconfont icon-biaoqian icon4"></i>     	    	            
+     	                                         {{itm[3]}} 
+						</li>
+						<li class="mui-table-view-cell" v-on:tap='bq(5,"cyan")'>
+						<i class="icon iconfont icon-biaoqian icon5"></i>     	    	            
+     	                                          {{itm[4]}}  
+						</li>
+						
+					</ul>
+				</div>
+			</div>
+
+		</div>		
+		<script src="../js/av-min.js"></script>
+		<script src="../js/AV.js"></script>
+		<script src="../js/vue.js"></script>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/mui.zoom.js"></script>
+		<script src="../js/mui.previewimage.js"></script>				
+		<script type="text/javascript">
+			mui.previewImage();			
+		var one = new Vue({
+			el:"#one",
+			data:{
+				title:'编辑备忘录',
+				DATAS:'' ,
+				type:'',
+				imgdata:'',
+				phones:'',
+				daiban:false,
+				dd:"",
+				gou:true,
+				itm:[]
+			},
+			ready:function(){
+
+				mui.init()
+				var isthis = this;
+			mui('.mui-scroll-wrapper').scroll();
+				
+				var myDate= new Date();
+				var mot= myDate.getMonth()+1;
+				var h=myDate.getHours();
+				var fen = myDate.getMinutes();
+				if(h<10){
+					h='0'+h; 
+				}
+				if(fen<10){
+					fen='0'+fen; 
+				}
+					this.DATAS = myDate.getFullYear()+'年'+mot+'月'+myDate.getDate()+'日'+' '+h+':'+fen;
+				mui.plusReady(function(){
+					var heights=plus.display.resolutionHeight-120; 
+					mui("#txt")[0].style.minHeight=heights+"px"
+					 isthis.phones = plus.storage.getItem('phone')  
+					isthis.itm=plus.storage.getItem('biaoqi').split('-')
+					var con = plus.webview.currentWebview()
+					isthis.type=con.num
+					console.log(isthis.type)
+			       
+				})
+			},
+			methods:{
+				ddd:function(){
+					this.daiban=!this.daiban;
+					if(this.daiban){
+						this.dd=this.phones;
+					}else{
+						this.dd=''
+					}
+				},
+				write:function(){
+					this.title='编辑备忘录';
+					this.gou=true;
+				},
+				submits:function(){
+					var isthis =this;
+					var cont;
+					var txt=document.getElementById("txt")
+					    isthis.gou=false
+                      
+                      var isthis=this;
+
+                      console.log(txt.innerHTML)
+                      if(txt.innerHTML==''){
+                      	mui.toast("请填写备忘录");
+					    isthis.gou=true
+                      	
+                      	return;
+                      }
+                      plus.nativeUI.showWaiting('提交中。。。')
+                      console.log(txt.innerHTML)
+                      console.log(txt.innerHTML.split(">"))
+                      var a = [];
+                      a=txt.innerHTML.split(">");
+                      if(a.length==1){
+
+                      	cont=a[0];                     	                     	
+                      }else{
+                      	 for(var i = 0 ; i < a.length ; i++){
+	                      	if(a[i].split("<")[0]!=''){
+	                      		cont=a[i].split("<")[0];
+						        console.log(cont)                     		
+	                      		i=a.length;                    		
+	                      	}
+                      }
+                      }
+                     
+
+					 
+                     var TodoFolder = AV.Object.extend('beiwanglu');
+					 var todoFolder = new TodoFolder();
+					 todoFolder.set('content',cont);
+					 todoFolder.set('time',this.DATAS);
+					 todoFolder.set('phone',this.phones);
+					 todoFolder.set('type',this.type.toString());
+					 todoFolder.set('daiban',this.dd);
+					 if(this.imgdata!=''){todoFolder.set('img',this.imgdata);}
+					 todoFolder.set('html',txt.innerHTML);			
+					 todoFolder.save().then(function (todo) {
+					 	plus.nativeUI.closeWaiting()
+					    var jj = plus.webview.getWebviewById('left')
+						jj.evalJS("left.list()")
+						var jjJ = plus.webview.getWebviewById('main')
+						jjJ.evalJS("thismain.lists()")
+						mui.back()
+					    isthis.title='备忘录';
+
+					    
+					 }, function (error) {
+					 	plus.nativeUI.closeWaiting()
+					 	
+						    mui.toast("请检查您的网络");
+					        isthis.gou=true
+						    
+					    
+					 });
+
+
+				},
+				//拍照
+			     getImage:function(){
+			     	var getI=this;
+			        var mobileCamera=plus.camera.getCamera();
+			        mobileCamera.captureImage(function(e){
+			            plus.io.resolveLocalFileSystemURL(e,function(entry){
+			                var path=entry.toLocalURL()+'?version='+new Date().getTime();
+			                getI.uploadHeadImg(path);
+			            },function(err){
+			                mui.toast("读取拍照文件错误");
+			            });
+			        },function(e){
+			            mui.toast("错误：",err);
+			        },function(){
+			            filename:'_doc/head.png';
+			        });
+			    },
+			
+			    //从本地相册选择
+			     galleryImg:function(){
+			     	var gall=this;
+			        console.log("你选择了从相册选择");
+			        plus.gallery.pick(function(a){
+			            plus.io.resolveLocalFileSystemURL(a,function(entry){
+			                plus.io.resolveLocalFileSystemURL('_doc/',function(root){
+			                    root.getFile('head.png',{},function(file){
+			                        //文件已经存在
+			                        file.remove(function(){
+			                            console.log("文件移除成功");
+			                            entry.copyTo(root,'head.png',function(e){
+			                                var path=e.fullPath+'?version='+new Date().getTime();
+			                                gall.uploadHeadImg(path);
+			                            },function(err){
+			                                console.log("copy image fail: ",err);
+			                            });
+			                        },function(err){
+			                            console.log("删除图片失败：（"+JSON.stringify(err)+")");
+			                        });
+			                    },function(err){
+			                        //打开文件失败
+			                        entry.copyTo(root,'head.png',function(e){
+			                            var path=e.fullPath+'?version='+new Date().getTime();
+			                            gall.uploadHeadImg(path);
+			                        },function(err){
+			
+			                            mui.alert("上传图片失败：（"+JSON.stringify(err)+")");
+			                        });
+			                    });
+			                },function(e){
+			                });
+			            });
+			        },function(err){
+			        },{
+			            filter:'image'
+			        });
+			    },
+			    //上传图片
+			     uploadHeadImg:function(imgPath){
+			     	var upl=this;		     				
+			       var image = new Image();
+				    image.src = imgPath;
+				    image.onload = function() {
+				    var imgData = "data:image/png;base64,"+upl.getBase64Image(image);				   				    
+//				    console.log(imgData)
+				     upl.imgdata=imgData;
+				    var txt=document.getElementById("txt")
+				    txt.addEventListener('keyup', function ($event) {
+					        console.log($event);
+					      });
+						txt.focus();
+                        var img = '<img src="'+imgData+'" alt="" data-preview-src="" data-preview-group="1" /><span>&nbsp;</span>'						
+						upl.pasteHtmlAtCaret(img);					
+				    }
+			    },
+			    pasteHtmlAtCaret:function(html) {
+			        var sel, range;
+			        if (window.getSelection) {
+			            sel = window.getSelection();
+			            if (sel.getRangeAt && sel.rangeCount) {
+			                range = sel.getRangeAt(0);
+			                range.deleteContents();
+			                var el = document.createElement("div");
+			                el.innerHTML = html;
+			                var frag = document.createDocumentFragment(), node, lastNode;
+			                while ( (node = el.firstChild) ) {
+			                    lastNode = frag.appendChild(node);
+			                }
+			                range.insertNode(frag);
+			                if (lastNode) {
+			                    range = range.cloneRange();
+			                    range.setStartAfter(lastNode);
+			                    range.collapse(true);
+			                    sel.removeAllRanges();
+			                    sel.addRange(range);
+			                }
+			            }
+			        } else if (document.selection && document.selection.type != "Control") {
+			            document.selection.createRange().pasteHTML(html);
+			        }
+			      },			
+			    //压缩图片转成base64
+			     getBase64Image:function(img){
+			     	 var canvas = document.createElement("canvas");
+				    var width = img.width;
+				    var height = img.height;
+//				     calculate the width and height, constraining the proportions
+				    if(width > height) {
+				    if(width > 666) { 
+				        height = Math.round(height *= 666 / width);
+				        width = 666;
+				    }
+				    } else {
+				    if(height > 666) {
+				        width = Math.round(width *= 666 / height);
+				        height = 666;
+				    }
+				    }
+				    canvas.width = width; /*设置新的图片的宽度*/
+				    canvas.height = height; /*设置新的图片的长度*/
+				    var ctx = canvas.getContext("2d");
+				    ctx.drawImage(img, 0, 0, width, height); /*绘图*/
+				    var dataURL = canvas.toDataURL("image/png",0.8);
+				    return dataURL.replace("data:image/png;base64,", "");
+				},
+				bq:function(i,col){							
+					mui('.mui-popover').popover('toggle',document.getElementById("topPopover"));						
+					this.type=i;
+					
+				}
+			}
+		})
+			
+		</script>
+	</body>
+
+</html>

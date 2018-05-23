@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<link href="css/mui.min.css" rel="stylesheet" />  
+		<link rel="stylesheet" type="text/css" href="css/main.css"/>
+		<style type="text/css">
+			.denxin{
+				position: fixed;
+				top: 0;
+				left: 0;
+				z-index: 999;
+				background-color: black;
+				opacity: 0.4;
+				top: 0;
+				left: 0;
+				width: 100%;
+				height: 100%;  
+			}
+			.gen{
+				border-radius: 5px;
+				position: fixed;
+				border: 1px solid black;
+				box-shadow: 5px 5px 5px black ;
+				z-index: 9999;
+				width: 300px;
+				height: 200px;
+				left: 50%;
+				margin-left: -150px;
+				top:150px;
+				background-color: white;
+			}
+			.gen p{
+				padding: 10px;
+				padding-bottom: 0;
+				color: black;
+				font-size: 18px;
+			}
+			.contents{
+				/*background-color: red;*/
+				line-height: 30px;
+				display: -webkit-box;
+				-webkit-box-orient: vertical;
+				-webkit-line-clamp: 4;
+				overflow: hidden;
+				height: 120px;
+                width: 280px;
+                margin-left: 10px;
+                color: gray;
+			}
+			.one{				
+				width: 80%;
+				height: 20px;
+				/*background-color: red;*/
+				position: absolute;
+				bottom: 10px;
+				border-radius: 10px;
+				margin-left: 4%;
+				border: 1px solid gray;
+			}
+			.one span{
+				position: absolute;
+				right: -18%;
+				top:0px;
+			}
+			.two{			
+				height: 20px;
+				background-color: red;				
+				border-radius: 10px;				
+				margin-top: -1px;
+			}
+		</style>
+	</head> 
+
+	<body id='main' style="background-color: white !important;">
+		<header class="mui-bar mui-bar-nav" style="padding-right: 15px;">
+		    <a class="  mui-icon mui-icon-bars mui-pull-left" v-on:tap='open()' ></a>			
+			<h1 class="mui-title">{{title}}</h1> 
+		    <a class="mui-icon mui-icon-plusempty mui-pull-right" v-on:tap='add()' style="font-size: 35px;position: relative;top:-3px"></a>		  
+		</header> 
+		<div class="mui-content mui-scroll-wrapper" style="padding-left: 10px;padding-right: 10px;background-color: white !important;" id="refreshContainer">
+			<div class="mui-scroll">
+			<div class="wl" v-if="wxss">
+			 &nbsp;&nbsp;&nbsp;&nbsp;网络不给力，请检查网络设置 。
+			</div>  			
+			<div class="mui-cs" style="min-height: 500px;"> 
+			<div class="mui-loading" style="position: absolute; top:10px;width: 100%;text-align: center;">
+				<div class="mui-spinner" v-if='istrue'></div>
+		   </div> 			
+			<!--列表式-->
+			<ul  class="mui-table-view"  style="margin: 0;">
+				
+				<li class="mui-table-view-cell"   v-for='i in item' style="">
+					<div class="mui-slider-right mui-disabled" v-on:tap='diet(i.objectId,$index)'>											
+						<a class="mui-btn mui-btn-red">删除</a>					 
+					</div> 
+					<div class="mui-slider-handle" v-on:tap='goto(i.objectId,i.type)'>
+						 <img class="mui-col-sm-2 mui-pull-right"  :src="i.img" style="width:70px !important;height: 70px;margin-left: 10px;" v-if='i.img'>
+		                <div class="mui-col-sm-10" style="padding: 10px 0;">
+		                    <p class="mui-ellipsis" style="color: black; font-size: 17px;margin-bottom: 5px;position: relative;top: -5px;">{{i.content}} </p>
+		                     <span style="position: relative;top: 15px;">
+		                     	{{i.time}}
+		                     </span>		                    
+						    <i class="mui-icon mui-icon-star" style="color: red; font-size: 12px;position: relative;top: 13px;" v-if='i.shouchang'></i>		                    
+		                </div>										
+					</div>
+					
+				</li>
+				<li style="text-align: center;margin: 10px;" v-if="item!=''">--END--</li>
+		    </ul>
+		   
+		   <!--表格式-->
+		   <!--<ul  class="mui-table-view"  v-if='!isfalse'style="border: none; margin-top: 5px;" > 
+				<li class="mui-table-view-cell mui-media mui-col-xs-6 mui-col-sm-6 mui-display"  v-for='i in item' >
+					<div class="mui-slider-right mui-disabled" v-on:tap='diet(i.objectId,$index)'>						
+						<a class="mui-btn mui-btn-red"><p style="position:absolute;top:50px;left: 20px;font-size: 20px;color: white;">删</p><p style="color: white;position:absolute;top:110px;left: 20px;font-size: 20px;">除</p></a>
+					</div>
+					<div class="mui-slider-handle" v-on:tap='goto(i.objectId,i.type)'>
+						 <img class="imgs " :src="i.img">
+						 <i class="mui-icon mui-icon-star" style="color: red; position: absolute;top:5px;right: 5px;" v-if='i.shouchang'></i>
+			                <div class="mui-media-body imgsdiv" >
+			                    <p class="mui-ellipsis">{{i.content}} </p>
+			                        {{i.time}}			                    
+			                </div>						
+					</div>
+				</li>									
+		   </ul>		   -->
+		   		   
+		   <!--暂无数据-->
+		   <div id="zhan" style="display: none;">
+		   	 <img src="images/5a0d7a8f4e6227bba72671df88070710.png"/ style="width: 100%; border: none;">
+		   	 <div style="text-align: center;color: gray;">
+		   	   这里还木有内容哦~	 
+		   	 </div>
+		   </div>
+		 </div>	
+		</div>		 
+		</div>			   		
+		<script src="js/av-min.js"></script>
+		<script src="js/AV.js"></script>
+		<script src="js/mui.min.js"></script>
+        <script src="js/api.js"></script>
+		<script src="js/vue.js"></script>
+		<script>
+//		    var deceleration = mui.os.ios?44.003:0.0009;
+		    var ws = null;var _self = null;
+		    var menu=false,mask;
+			var thismain = new Vue({
+				el:'#main',
+				data:{
+//					isfalse:'',   
+					title:'备忘录',
+					phones:'',
+					item:[],
+					istrue:true,
+					i:'all',
+					wxss:false,
+					bai:'0%',
+					GX:false ,
+					urlss:'',
+					content:''
+				},
+				ready:function(){
+					var isthis=this;				
+					mui.init({
+					  statusBarBackground: '#9defbcg', 
+					   pullRefresh : {
+						    container:"#refreshContainer",//下拉刷新容器标识，querySelector能定位的css选择器均可，比如：id、.class等
+						    down : {
+						      style:'circle',//必选，下拉刷新样式，目前支持原生5+ ‘circle’ 样式
+						      color:'#2BD009', //可选，默认“#2BD009” 下拉刷新控件颜色
+						      height:'50px',//可选,默认50px.下拉刷新控件的高度,
+						      range:'100px', //可选 默认100px,控件可下拉拖拽的范围
+						      offset:'44px', //可选 默认0px,下拉刷新控件的起始位置						     
+						      callback :isthis.lists //必选，刷新函数，根据具体业务来编写，比如通过ajax从服务器获取新数据；
+						    }
+						  }
+					});
+					setTimeout(function(){					
+					mui.plusReady(function(){
+						
+						
+						
+					    plus.navigator.setFullscreen(false); 
+					    plus.navigator.setStatusBarBackground('#F7F7F7');//背景颜色 ，颜色码			    	
+				        plus.navigator.setStatusBarStyle('dark');  // "dark"：文字为黑色 "light"：文字为白色 	
+                         _self=plus.webview.currentWebview()	                        
+					    mask = mui.createMask()
+					    document.addEventListener('tap',function(){
+					    	var _left = parseInt(menu.getStyle().left)
+					    	if(_left>=0){
+					    	    isthis.close() 					    		
+					    	}                               
+					    },true)
+					    isthis.phones = plus.storage.getItem('phone')  
+					    ws=plus.webview.create("err.html","err",{top:'44px'})
+					        //网络处理
+                          api.wang(function(e){
+                          	if(e==true){
+                          		isthis.wxss=false
+                          		isthis.istrue=true;                             		
+						        isthis.lists()
+                          	}else{
+
+                          		isthis.istrue=false; 
+                                isthis.wxss=true
+                          	}
+                          })
+                          //版本更新
+                           isthis.jian()
+                          //安卓返回键处理
+					      api.back()                         
+	
+						 isthis.wbeview()	 
+						
+					  })		
+						},500)													
+				  },
+				methods:{
+					//监听版本更新 
+					jian:function(){
+						var a ,b;
+						var that = this
+						 plus.runtime.getProperty(plus.runtime.appid,function(inf){					           					    	
+		                  a= inf.version;			                 
+						 var query = new AV.Query('ban');								 						         					    
+					     query.find().then(function (results) {					      
+					       b =  JSON.parse(JSON.stringify(results))[0].namber;
+					       that.urlss= JSON.parse(JSON.stringify(results))[0].url;
+					       that.content = JSON.parse(JSON.stringify(results))[0].content ;  
+						     if(a!=b){ 						     	
+						     	that.top();
+						     }
+					     })
+					     
+				        });
+					      
+					},
+					//版本更新提示
+					top:function(){					
+						var that = this;
+						 plus.nativeUI.confirm('发现新版本，是否更新？', function(e) {
+								if (e.index == 0) {
+//                                    that.GX=true;									
+//						              that.genxin(that.urlss); 
+                                      console.log(1)
+                                      plus.webview.create("download.html",'download',{
+                                      	 width: '200px',				
+											height: '200px',				
+											margin: "auto",	
+                                      	  	background: "rgba(0,0,0,0.2)",
+											scrollIndicator:'none'
+                                      },{urls:that.urlss,content:that.content}).show() 
+								} else { 
+									console.log(1)
+								}
+							}, "提示", ["确定", "取消"]);		 						 
+                   },           
+					wbeview:function(){													
+							var menu_style = {
+								left: "-70%",
+								width: '70%',
+								render:"always",
+							};			
+							if(mui.os.ios) {
+								menu_style.zindex = -1;
+							}			 
+							menu = mui.openWindow({
+								id: 'left',
+								url: 'left.html',
+								styles: menu_style,
+								show: {
+									aniShow: 'none'
+								},
+								waiting: {
+									autoShow: false
+								}
+							});																	
+					},
+					titl:function(){
+						var tt = plus.storage.getItem('biaoqi').split('-')[this.i-1];
+							if(tt==undefined){								
+							}else{
+					           this.title=tt;								
+							}
+					},
+					list:function(j,title){
+                         document.getElementById('zhan').style.display='none'
+                        var isthis = this;
+                        isthis.item=[];
+						isthis.istrue=true;
+                        
+						if(title==undefined){							
+						}else {
+
+							this.i = j;                          
+							this.title=title;
+							this.close();  
+							 mask.close();
+						}	
+
+						 var query = new AV.Query('beiwanglu');
+								 if(!isNaN(this.i)){query.equalTo('type', this.i);}
+								 if(this.i=='d'){query.equalTo('daiban', this.phones);}
+								 if(this.i=='s'){query.equalTo('shouchang', this.phones);}
+						         query.equalTo('phone', this.phones);						    
+							     query.find().then(function (results) {
+							      isthis.istrue=false;   
+							      var data =  JSON.parse(JSON.stringify(results)).reverse();								 
+								  isthis.item=data;
+								  if(isthis.item==''){
+                                     document.getElementById('zhan').style.display='block'
+								  	
+								  }
+                                   console.log( isthis.item)
+							     }, function (error) {
+							     	console.log(error)
+							     	 isthis.istrue=false;
+							     	 mui.toast("请检查您的网络")
+								 });						
+					   },
+					lists:function(j,title){
+                         document.getElementById('zhan').style.display='none'
+						 var isthis = this;                                           
+						if(title==undefined){			    				
+						}else{
+							 this.i = j;                          
+							this.title=title;													
+						}									
+						 var query = new AV.Query('beiwanglu');
+								 if(!isNaN(this.i)){query.equalTo('type', this.i);}
+								 if(this.i=='d'){query.equalTo('daiban', this.phones);}
+								 if(this.i=='s'){query.equalTo('shouchang', this.phones);}
+						         query.equalTo('phone', this.phones);						    
+							     query.find().then(function (results) {
+							     	   isthis.istrue=false;
+							     	    mui('#refreshContainer').pullRefresh().endPulldown();
+							     	     var data =  JSON.parse(JSON.stringify(results)).reverse();
+								        isthis.item=data;
+								        if(isthis.item==''){ 
+		                                     document.getElementById('zhan').style.display='block'
+										  	
+										  }
+								       console.log( isthis.item)
+							     }, function (error) {
+							     	console.log(error)
+							     	isthis.istrue=false;
+							     	mui('#refreshContainer').pullRefresh().endPulldown();							     	     
+							     	mui.toast("请检查您的网络")
+								 });						
+					},
+					//删除
+					diet:function(id,index){
+						console.log(id)
+                         var isthis = this;
+                         plus.nativeUI.c              
+						plus.nativeUI.confirm('您是否要删除该条备忘录？',function (e) {
+						if(e.index==1){}else{
+						      isthis.item.splice(index, 1); 							
+							  var todo = AV.Object.createWithoutData('beiwanglu', id);
+							  todo.destroy().then(function (success) {
+							    // 删除成功
+							        var jj = plus.webview.getWebviewById('left')
+								    jj.evalJS("left.list()")
+							  }, function (error) {
+							    mui.toast("请检查您的网络")
+							  });
+						  }
+					   },'温馨提示',["确认","取消"])					
+					},
+					goto:function(ids,ty){
+                       api.open('html/two.html','two',{ID:ids,type:ty},'zoom-out')
+					},
+					toggle:function(){ 
+						this.isfalse=!this.isfalse;
+						plus.storage.setItem("isfalse1",this.isfalse.toString())												
+					}, 
+					
+					open:function(){
+							plus.webview.startAnimation({
+								'view': _self,
+								'styles': {
+									'fromLeft': '0',
+									'toLeft': "70%" 
+								},
+								  'action': 'show'
+								}, {
+									'view': menu,
+									'styles': {
+										'fromLeft': "-70%",
+										'toLeft': '0%'
+									},
+									'action': 'show'
+								},
+								function(e) {
+									//console.log(JSON.stringify(e));
+									
+								}.bind(this)
+							)
+							//显示遮罩
+							mask.show()
+					
+						
+					},
+					close:function(){
+						plus.webview.startAnimation({
+						'view': _self,
+						'styles': {
+							'fromLeft': '70%',
+							'toLeft': "0"
+						},
+								'action': 'show'
+							}, {
+								'view': menu,
+								'styles': {
+									'fromLeft': "0",
+									'toLeft': '-70%'
+								},
+								'action': 'show'
+							},
+							function(e) {
+
+								if(e.id == _self.id) {}
+							}.bind(this)
+						)
+//						mask.close(); 
+						
+					},
+					add:function(){
+						var j;
+						if(!isNaN( this.i)){
+							j=this.i;
+						}else{
+							j=5;
+						}
+						api.open("html/one.html",'one',{num:j},'slide-in-bottom')
+					
+					} 
+					
+				}
+			})
+
+			
+		</script>
+	</body>
+
+</html>
